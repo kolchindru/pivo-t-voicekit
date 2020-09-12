@@ -8,6 +8,33 @@ from telegram import Voice
 from voicekit.library_voicekit import stt_wav_to_string, tts_string_to_wav
 
 
+@dataclass
+class AnswerOption:
+    number: int
+    text: str
+    is_correct: bool
+
+
+@dataclass
+class Question:
+    body: str
+    answers: List[AnswerOption]
+    right_text: str
+    wrong_text: str
+
+
+@dataclass
+class CaseAction:
+    is_up: bool
+    amount: int
+
+
+@dataclass
+class Case:
+    body: str
+    choices: List[CaseAction]
+
+
 class TempFiles:
     def __init__(self, *extensions):
         self.extensions = extensions
@@ -56,25 +83,6 @@ def send_text_as_voice(text, update, context):
             context.bot.send_voice(chat_id=update.effective_chat.id, voice=voice_file)
 
 
-@dataclass
-class AnswerOption:
-    number: str
-    text: str
-    is_correct: bool
-
-
-@dataclass
-class CaseAction:
-    is_up: bool
-    amount: int
-
-
-@dataclass
-class Case:
-    body: str
-    choices: List[CaseAction]
-
-
 def is_correct(user_answer_string, answer_options_list, no_answer_options=False):
     extractor = NumberExtractor()
     user_answer_string = extractor.replace_groups(user_answer_string)
@@ -83,7 +91,7 @@ def is_correct(user_answer_string, answer_options_list, no_answer_options=False)
     number_answer = None
     text_answer = None
     for option in answer_options_list:
-        option.text, option.number = option.text.lower(), option.number.lower()
+        option.text, option.number = option.text.lower(), str(option.number).lower()
         number_answer = option if option.number in user_answer_string else number_answer
         text_answer = option if option.text in user_answer_string else text_answer
 
@@ -94,20 +102,7 @@ def is_correct(user_answer_string, answer_options_list, no_answer_options=False)
     result = user_answer.is_correct
     return result
 
-def get_answered_option(user_answer_string, answer_options_list):
-    extractor = NumberExtractor()
-    user_answer_string = extractor.replace_groups(user_answer_string)
-    number_answer = None
-    text_answer = None
-    for option in answer_options_list:
-        option.text, option.number = option.text.lower(), option.number.lower()
-        number_answer = option if option.number in user_answer_string else number_answer
-        text_answer = option if option.text in user_answer_string else text_answer
-
-    user_answer = number_answer if number_answer else text_answer
-    return user_answer
-
 
 # Test
-options = [AnswerOption("1", "пиздато", False), AnswerOption("2", "хуёво", False), AnswerOption("3", "полный пипец 988", True)]
-print(get_answered_option("вариант третий хуёво", options))
+options = [AnswerOption("1", "пиздато", False), AnswerOption("2", "хуёво", False), AnswerOption("3", "полный пиздец 1488", True)]
+print(is_correct("вариант третий хуёво", options))
