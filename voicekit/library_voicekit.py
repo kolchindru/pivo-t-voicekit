@@ -1,6 +1,6 @@
-from tinkoff.cloud.stt.v1 import stt_pb2_grpc, stt_pb2
-from tinkoff.cloud.tts.v1 import tts_pb2, tts_pb2_grpc
-from auth import authorization_metadata
+from .tinkoff.cloud.stt.v1 import stt_pb2_grpc, stt_pb2
+from .tinkoff.cloud.tts.v1 import tts_pb2, tts_pb2_grpc
+from .auth import authorization_metadata
 import grpc
 import os
 import json
