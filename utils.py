@@ -59,20 +59,21 @@ def is_correct(user_answer_string, answer_options_list, no_answer_options=False)
     user_answer_string = extractor.replace_groups(user_answer_string)
     if no_answer_options and not len(answer_options_list) == 1:
         raise ValueError("There's actuatlly answer options")
-    user_answer = None
+    number_answer = None
+    text_answer = None
     for option in answer_options_list:
         option.text, option.number = option.text.lower(), option.number.lower()
-        user_answer = option if (option.text in user_answer_string) or (option.number in user_answer_string) else user_answer
-        if user_answer:
-            break
+        number_answer = option if option.number in user_answer_string else number_answer
+        text_answer = option if option.text in user_answer_string else text_answer
+
+    user_answer = number_answer if number_answer else text_answer
     if not user_answer:
         result = False if no_answer_options else None
         return result
     result = user_answer.is_correct
     return result
 
-if __name__ == "__main__":
-    pass
-    # # Test
-    # options = [AnswerOption("1", "пиздато", False), AnswerOption("2", "хуёво", False), AnswerOption("3", "полный пиздец 1488", True)]
-    # print(is_correct("вариант третий хуёво", options))
+
+# Test
+options = [AnswerOption("1", "пиздато", False), AnswerOption("2", "хуёво", False), AnswerOption("3", "полный пиздец 1488", True)]
+print(is_correct("вариант третий хуёво", options))
