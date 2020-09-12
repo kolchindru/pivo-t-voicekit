@@ -1,2 +1,4 @@
-google
+google-cloud-api
 python-telegram-bot
+yargy
+natasha
