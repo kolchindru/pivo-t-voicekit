@@ -2,8 +2,10 @@ import os
 import subprocess
 import uuid
 
-from telegram import Voice
+from dataclasses import dataclass
+from typing import List
 
+from telegram import Voice
 from voicekit.library_voicekit import stt_wav_to_string
 
 
@@ -29,3 +31,10 @@ def message_to_text(update, context):
         return text
 
     return update.message.text
+
+
+@dataclass
+class AnswerOption:
+    letter: str
+    text: str
+    is_correct: bool
