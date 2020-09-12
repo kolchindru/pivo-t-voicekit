@@ -10,8 +10,8 @@ import utils
 
 def choose_company_action_callback(update, context):
     case = context.user_data["current_case"]
-    answer_num = utils.get_answered_option(utils.message_to_text(update, context), ["a", "b"]) - 1
-    context.user_data["company_price"] = context.user_data.get("company_price", 0) + case.choices[answer_num]
+    answer_num = utils.get_answered_option(utils.message_to_text(update, context), [case.choices]) - 1
+    context.user_data["company_price"] = context.user_data.get("company_price", 0) + case.outcomes[answer_num]
     context.bot.send_message(chat_id=update.message.chat_id,
                              text=texts.common.RESPONSE_TO_DECISION.format(context.user_data["company_price"]))
 

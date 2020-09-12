@@ -32,7 +32,8 @@ class CaseAction:
 @dataclass
 class Case:
     body: str
-    choices: List[CaseAction]
+    outcomes: List[CaseAction]
+    choices: List[str]
 
 
 class TempFiles:
