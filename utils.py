@@ -1,6 +1,7 @@
 import os
 import subprocess
 import uuid
+from typing import List
 
 from dataclasses import dataclass
 
@@ -43,6 +44,12 @@ class AnswerOption:
 
 
 @dataclass
+class CaseAction:
+    is_up: bool
+    amount: int
+
+
+@dataclass
 class Case:
     body: str
-    choices: List[List[str, int], ...]
+    choices: List[CaseAction]
