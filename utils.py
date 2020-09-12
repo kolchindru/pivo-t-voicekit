@@ -90,10 +90,14 @@ def is_correct(user_answer_string, answer_options_list, no_answer_options=False)
         raise ValueError("There's actuatlly answer options")
     number_answer = None
     text_answer = None
+    print(user_answer_string)
     for option in answer_options_list:
         option.text, option.number = option.text.lower(), str(option.number).lower()
-        number_answer = option if option.number in user_answer_string else number_answer
-        text_answer = option if option.text in user_answer_string else text_answer
+        number_answer = option if (option.number in user_answer_string or user_answer_string in option.number) \
+            else number_answer
+        text_answer = option if (option.text in user_answer_string or user_answer_string in option.text)\
+            else text_answer
+    print(number_answer, text_answer)
 
     user_answer = number_answer if number_answer else text_answer
     if not user_answer:
@@ -104,5 +108,5 @@ def is_correct(user_answer_string, answer_options_list, no_answer_options=False)
 
 
 # Test
-options = [AnswerOption("1", "пиздато", False), AnswerOption("2", "хуёво", False), AnswerOption("3", "полный пиздец 1488", True)]
-print(is_correct("вариант третий хуёво", options))
+# options = [AnswerOption("1", "пиздато", False), AnswerOption("2", "хуёво", False), AnswerOption("3", "полный пиздец 1488", True)]
+# print(is_correct("вариант третий хуёво", options))
