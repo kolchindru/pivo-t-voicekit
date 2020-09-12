@@ -24,8 +24,8 @@ def choose_name_state_callback(update, context):
     context.user_data["company_name"] = company_name
     context.bot.send_message(chat_id=update.message.chat_id,
                              text=texts.onboarding.CHOSE_NAME.format(name=company_name))
-    # handlers.question.send_question(update, context)
-    return states.QUESTION_MULTIPLE_CHOICE_STATE
+    state = handlers.question.send_question(update, context)
+    return state
 
 
 choose_domain_state_handler = MessageHandler(Filters.all, choose_domain_state_callback)
