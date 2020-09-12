@@ -1,4 +1,5 @@
-google-cloud-api
+google-cloud-speech
 python-telegram-bot
-yargy
-natasha
+yargy<0.13
+natasha<1
+python-dotenv
