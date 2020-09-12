@@ -7,8 +7,8 @@ cases = [
              "а. 10 000 000 рублей за долю 10% в твоей компании."
              "б. 5 000 000 рублей за долю 5% в твоей компании."
              "Что ты выберешь?",
-        choices=[utils.CaseAction(is_up=True, amount=10000000000),
-                 utils.CaseAction(is_up=True, amount=5000000000)]
+        choices=[utils.CaseAction(is_up=True, amount=10000000),
+                 utils.CaseAction(is_up=True, amount=5000000)]
     ),
     utils.Case(
         body="Правильно! Инвесторы заинтересовались твоей компанией, увидев, как ты разбираешься в области. Теперь ты можешь прокачать свою компанию:"
@@ -16,7 +16,7 @@ cases = [
              "а. 10 000 000 рублей за долю 10% в твоей компании."
              "б. 5 000 000 рублей за долю 5% в твоей компании."
              "Что ты выберешь?",
-        choices=[utils.CaseAction(is_up=True, amount=10000000000),
-                 utils.CaseAction(is_up=True, amount=5000000000)]
+        choices=[utils.CaseAction(is_up=True, amount=10000000),
+                 utils.CaseAction(is_up=True, amount=5000000)]
     ),
 ]
