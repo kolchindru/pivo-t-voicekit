@@ -38,3 +38,9 @@ class AnswerOption:
     letter: str
     text: str
     is_correct: bool
+
+
+@dataclass
+class Case:
+    body: str
+    choices: List[List[str, int], ...]
