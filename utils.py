@@ -94,7 +94,20 @@ def is_correct(user_answer_string, answer_options_list, no_answer_options=False)
     result = user_answer.is_correct
     return result
 
+def get_answered_option(user_answer_string, answer_options_list):
+    extractor = NumberExtractor()
+    user_answer_string = extractor.replace_groups(user_answer_string)
+    number_answer = None
+    text_answer = None
+    for option in answer_options_list:
+        option.text, option.number = option.text.lower(), option.number.lower()
+        number_answer = option if option.number in user_answer_string else number_answer
+        text_answer = option if option.text in user_answer_string else text_answer
+
+    user_answer = number_answer if number_answer else text_answer
+    return user_answer
+
 
 # Test
-options = [AnswerOption("1", "пиздато", False), AnswerOption("2", "хуёво", False), AnswerOption("3", "полный пиздец 1488", True)]
-print(is_correct("вариант третий хуёво", options))
+options = [AnswerOption("1", "пиздато", False), AnswerOption("2", "хуёво", False), AnswerOption("3", "полный пипец 988", True)]
+print(get_answered_option("вариант третий хуёво", options))
