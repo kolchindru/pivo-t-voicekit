@@ -8,6 +8,33 @@ from telegram import Voice
 from voicekit.library_voicekit import stt_wav_to_string
 
 
+@dataclass
+class AnswerOption:
+    number: int
+    text: str
+    is_correct: bool
+
+
+@dataclass
+class Question:
+    body: str
+    answers: List[AnswerOption]
+    right_text: str
+    wrong_text: str
+
+
+@dataclass
+class CaseAction:
+    is_up: bool
+    amount: int
+
+
+@dataclass
+class Case:
+    body: str
+    choices: List[CaseAction]
+
+
 def message_to_text(update, context, send_back_voice=True):
     if update.message.voice:
         tmp_name = str(uuid.uuid4())
@@ -35,33 +62,14 @@ def message_to_text(update, context, send_back_voice=True):
     return update.message.text
 
 
-@dataclass
-class AnswerOption:
-    number: str
-    text: str
-    is_correct: bool
-
-
-@dataclass
-class CaseAction:
-    is_up: bool
-    amount: int
-
-
-@dataclass
-class Case:
-    body: str
-    choices: List[CaseAction]
-
-
-def is_correct(user_answer_string, answer_options_list, no_answer_options=False):
+def is_correct(user_answer_string: str, answer_options_list: List[AnswerOption], no_answer_options: bool = False):
     extractor = NumberExtractor()
     user_answer_string = extractor.replace_groups(user_answer_string)
     if no_answer_options and not len(answer_options_list) == 1:
-        raise ValueError("There's actuatlly answer options")
+        raise ValueError("There are actually answer options")
     user_answer = None
     for option in answer_options_list:
-        option.text, option.number = option.text.lower(), option.number.lower()
+        option.text, option.number = option.text.lower(), str(option.number).lower()
         user_answer = option if (option.text in user_answer_string) or (option.number in user_answer_string) else user_answer
         if user_answer:
             break
@@ -70,9 +78,3 @@ def is_correct(user_answer_string, answer_options_list, no_answer_options=False)
         return result
     result = user_answer.is_correct
     return result
-
-if __name__ == "__main__":
-    pass
-    # # Test
-    # options = [AnswerOption("1", "пиздато", False), AnswerOption("2", "хуёво", False), AnswerOption("3", "полный пиздец 1488", True)]
-    # print(is_correct("вариант третий хуёво", options))
