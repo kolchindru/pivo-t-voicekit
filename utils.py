@@ -3,13 +3,12 @@ import subprocess
 import uuid
 
 from dataclasses import dataclass
-from typing import List
 
 from telegram import Voice
 from voicekit.library_voicekit import stt_wav_to_string
 
 
-def message_to_text(update, context):
+def message_to_text(update, context, send_back_voice=True):
     if update.message.voice:
         tmp_name = str(uuid.uuid4())
         tmp_ogg = tmp_name + ".ogg"
@@ -24,6 +23,9 @@ def message_to_text(update, context):
             raise Exception("Can not convert .ogg to .wav!")
 
         text = stt_wav_to_string(tmp_wav)
+
+        if send_back_voice:
+            context.bot.send_message(chat_id=update.effective_chat.id, text=f"\"{text}\"")
 
         os.remove(tmp_ogg)
         os.remove(tmp_wav)
