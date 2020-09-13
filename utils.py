@@ -1,6 +1,7 @@
 import os
 import subprocess
 import uuid
+from time import time
 from dataclasses import dataclass
 from typing import List, Optional
 from word_to_number.extractor import NumberExtractor
@@ -59,10 +60,12 @@ class TempFiles:
             os.remove(file)
 
 
-def _convert_audio(file_input, file_output):
-    process = subprocess.run(["ffmpeg", "-i", file_input, file_output])
+def _convert_audio(file_input, file_output, slow=0.85):
+    start = time()
+    process = subprocess.run(["ffmpeg", "-i", file_input, "-filter:a", f"atempo={slow}", file_output])
     if process.returncode != 0:
         raise Exception("Can not convert audio!")
+    print(time() - start)
 
 
 def message_to_text(update, context, send_back_voice=True):
