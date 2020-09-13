@@ -28,8 +28,8 @@ def choose_name_state_callback(update, context):
     return state
 
 
-choose_domain_state_handler = MessageHandler(Filters.all, choose_domain_state_callback)
-choose_name_state_handler = MessageHandler(Filters.all, choose_name_state_callback)
+choose_domain_state_handler = MessageHandler(Filters.text & (~Filters.command) | Filters.voice, choose_domain_state_callback)
+choose_name_state_handler = MessageHandler(Filters.text & (~Filters.command) | Filters.voice, choose_name_state_callback)
 
 states_to_handlers = {
     states.ONBOARDING_CHOOSE_DOMAIN_STATE: [choose_domain_state_handler],

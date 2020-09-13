@@ -41,13 +41,20 @@ def handle_question_answer(update, context, is_free_choice):
                                  text=current_question.right_text)
         case = random.choice(data.cases)
         context.user_data["current_case"] = case
+
+        body_text = case.body
+        answers_text = "\n".join(f"{letter}. {answer}" for letter, answer in
+                                 zip(answer_numbers, [a.text for a in case.choices]))
+        text = f"{body_text}\n{answers_text}\nЧто ты выберешь?"
         context.bot.send_message(chat_id=update.message.chat_id,
-                                 text=case.body)
+                                 text=text)
         return states.DECISION_CHOICE_STATE
     else:
         context.bot.send_message(chat_id=update.message.chat_id,
                                  text=current_question.wrong_text)
-        if utils.more_questions(update, context):
+        if utils.has_more_questions(update, context):
+            context.bot.send_message(chat_id=update.message.chat_id,
+                                     text=texts.question.HAS_MORE_QUESTIONS)
             state = send_question(update, context)
             return state
         else:
@@ -62,8 +69,8 @@ def multiple_choice_state_callback(update, context):
     return handle_question_answer(update, context, is_free_choice=False)
 
 
-multiple_choice_state_handler = MessageHandler(Filters.all, multiple_choice_state_callback)
-free_choice_state_handler = MessageHandler(Filters.all, free_choice_state_callback)
+multiple_choice_state_handler = MessageHandler(Filters.text & (~Filters.command) | Filters.voice, multiple_choice_state_callback)
+free_choice_state_handler = MessageHandler(Filters.text & (~Filters.command) | Filters.voice, free_choice_state_callback)
 
 states_to_handlers = {
     states.QUESTION_MULTIPLE_CHOICE_STATE: [multiple_choice_state_handler],
