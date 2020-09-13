@@ -34,14 +34,14 @@ cases = [
         outcomes=[utils.CaseAction(is_up=True, amount=10000000),
                   utils.CaseAction(is_up=True, amount=5000000)],
         choices=[utils.AnswerOption(number=1, text="10 000 000 рублей за долю 10% в твоей компании"),
-                 utils.AnswerOption(number=2, text="5 000 000 рублей за долю 5% в твоей компании."),]
+                 utils.AnswerOption(number=2, text="5 000 000 рублей за долю 5% в твоей компании."), ]
     ),
     utils.Case(
-        body="Инвесторы заинтересовались твоей компанией, увидев, как ты разбираешься в области. Теперь ты можешь прокачать свою компанию:"
-             "\nИнвесторы предлагают тебе:",
-        outcomes=[utils.CaseAction(is_up=True, amount=10000000),
-                  utils.CaseAction(is_up=True, amount=5000000)],
-        choices=[utils.AnswerOption(number=1, text="10 000 000 рублей за долю 10% в твоей компании"),
-                 utils.AnswerOption(number=2, text="5 000 000 рублей за долю 5% в твоей компании."), ]
+        body="Конкуренты заинтересовались твоей компанией, увидев, как ты разбираешься в области. "
+             "Они предлагают тебе 5 000 000 за то, чтобы ты закрыл свои офисы в городе Н. Что ты выберешь?",
+        outcomes=[utils.CaseAction(is_up=True, amount=-5000000),
+                  utils.CaseAction(is_up=True, amount=0)],
+        choices=[utils.AnswerOption(number=1, text="Согласиться"),
+                 utils.AnswerOption(number=2, text="Проигнорировать их"), ]
     ),
 ]
