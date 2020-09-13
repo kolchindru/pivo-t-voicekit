@@ -6,6 +6,7 @@ from telegram.ext import Updater, PicklePersistence, CommandHandler, Conversatio
 import handlers
 import states
 import texts
+import data
 
 BOT_TOKEN = os.environ["BOT_API_KEY"]
 
@@ -19,7 +20,12 @@ logger = logging.getLogger(__name__)
 
 
 def start_callback(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text=texts.onboarding.CHOOSE_DOMAIN_PROMPT)
+    body_text = data.companies.body
+    answers_text = "\n".join(f"{letter}. {answer}" for letter, answer in
+                             zip(handlers.question.answer_numbers, [a.text for a in data.companies.choices]))
+    text = f"{body_text}\n\n{answers_text}\n\nТы всегда можешь начать всё сначала, отправив команду /reset"
+    context.bot.send_message(chat_id=update.message.chat_id,
+                             text=text)
     return states.ONBOARDING_CHOOSE_DOMAIN_STATE
 
 

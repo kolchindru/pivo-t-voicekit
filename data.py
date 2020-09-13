@@ -17,7 +17,7 @@ free_answer_questions = [
 
 multiple_choice_questions = [
     utils.Question(
-        body="Спустя сколько лет после своего основания крупнейшая сеть кофеен Старбакс Кофе открыла первое кафе вне США?",
+        body="Спустя сколько лет после своего основания крупнейшая сеть кофеен Старбакс Кофе открыла первое кафе вне Соединённых Штатов?",
         answers=[utils.AnswerOption(number=1, text="25 лет", is_correct=True),
                  utils.AnswerOption(number=2, text="50 лет", is_correct=False),
                  utils.AnswerOption(number=3, text="6 лет", is_correct=False),
@@ -45,3 +45,10 @@ cases = [
                  utils.AnswerOption(number=2, text="5 000 000 рублей за долю 5% в твоей компании."), ]
     ),
 ]
+
+companies = utils.Domains(
+    body="Привет! В ОЛего тебе нужно построить собственную компанию с нуля. Давай создадим твою компанию. Чем она будет заниматься? [предложено на основе твоих предпочтений]:\n",
+    choices=[utils.AnswerOption(number=1, text="Эко-френдли кофейня", id="coffee"),
+             utils.AnswerOption(number=2, text="Маникюрный салон", id="nails"),
+             utils.AnswerOption(number=3, text="Сервис по аренде самокатов", id="scooter")],
+)

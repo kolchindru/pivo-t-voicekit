@@ -13,6 +13,7 @@ class AnswerOption:
     number: int
     text: str
     is_correct: Optional[bool] = None
+    id: Optional[str] = None
 
 
 @dataclass
@@ -33,6 +34,12 @@ class CaseAction:
 class Case:
     body: str
     outcomes: List[CaseAction]
+    choices: List[AnswerOption]
+
+
+@dataclass
+class Domains:
+    body: str
     choices: List[AnswerOption]
 
 

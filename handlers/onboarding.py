@@ -1,16 +1,25 @@
+from telegram.ext import MessageHandler, CommandHandler, Filters
+
+import utils
+import data
 import states
 import texts
 import handlers
-from telegram.ext import MessageHandler, CommandHandler, Filters
 
 domain_to_name = {
-    "nails": "маникюрный салон"
+    "coffee": "эко-френдли кофейня",
+    "nails": "маникюрный салон",
+    "scooter": "сервис по аренде самокатов",
 }
 
 
 def choose_domain_state_callback(update, context):
+    answered_option = utils.get_answered_option(utils.message_to_text(update, context), data.companies.choices)
     # context.bot.send_message(chat_id=update.message.chat_id, text=texts.common.FAILED_TO_PARSE)
-    domain = "nails"
+    if answered_option is None:
+        context.bot.send_message(chat_id=update.effective_chat.id, text=texts.common.FAILED_TO_PARSE)
+        return
+    domain = answered_option.id
     context.user_data["company_domain"] = domain
     context.bot.send_message(chat_id=update.message.chat_id,
                              text=texts.onboarding.CHOSE_DOMAIN.format(domain=domain_to_name[domain]))
