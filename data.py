@@ -34,15 +34,25 @@ cases = [
         outcomes=[utils.CaseAction(is_up=True, amount=10000000),
                   utils.CaseAction(is_up=True, amount=5000000)],
         choices=[utils.AnswerOption(number=1, text="10 000 000 рублей за долю 10% в твоей компании"),
-                 utils.AnswerOption(number=2, text="5 000 000 рублей за долю 5% в твоей компании."),]
+                 utils.AnswerOption(number=2, text="5 000 000 рублей за долю 5% в твоей компании."), ]
     ),
     utils.Case(
-        body="Инвесторы заинтересовались твоей компанией, увидев, как ты разбираешься в области. Теперь ты можешь прокачать свою компанию:"
-             "\nИнвесторы предлагают тебе:",
-        outcomes=[utils.CaseAction(is_up=True, amount=10000000),
-                  utils.CaseAction(is_up=True, amount=5000000)],
-        choices=[utils.AnswerOption(number=1, text="10 000 000 рублей за долю 10% в твоей компании"),
-                 utils.AnswerOption(number=2, text="5 000 000 рублей за долю 5% в твоей компании."), ]
+        body="Конкуренты заинтересовались твоей компанией, увидев, как ты разбираешься в области. "
+             "Они предлагают тебе 5 000 000 за то, чтобы ты закрыл свои офисы в городе Н. Что ты выберешь?",
+        outcomes=[utils.CaseAction(is_up=True, amount=-5000000),
+                  utils.CaseAction(is_up=True, amount=0)],
+        choices=[utils.AnswerOption(number=1, text="Согласиться"),
+                 utils.AnswerOption(number=2, text="Проигнорировать их"), ]
+    ),
+    utils.Case(
+        body="В процессе хайринга вы находите крутого маркетолога. Он вроде как согласен принять ваш оффер, но "
+             "только если вы в дополнение возьмете еще и его брата :) С одной стороны, это хороший кандидат, "
+             "который мог бы сильно помочь вам в продвижении ваших продуктов. С другой, это не очень разумный "
+             "шаг — нанимать лишних сотрудников на ранних стадиях развития, да еще и по кумовским связям.",
+        outcomes=[utils.CaseAction(is_up=True, amount=0),
+                  utils.CaseAction(is_up=True, amount=0)],
+        choices=[utils.AnswerOption(number=1, text="Взять обоих братьев на работу. На свой страх и риск :)"),
+                 utils.AnswerOption(number=2, text="Отказаться от них."), ]
     ),
 ]
 
