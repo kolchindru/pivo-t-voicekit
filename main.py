@@ -35,6 +35,7 @@ def unknown_callback(update, context):
 states_to_handlers = {
     **handlers.onboarding.states_to_handlers,
     **handlers.question.states_to_handlers,
+    **handlers.decision.states_to_handlers,
 }
 
 start_handler = CommandHandler("start", start_callback)

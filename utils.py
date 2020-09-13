@@ -2,7 +2,7 @@ import os
 import subprocess
 import uuid
 from dataclasses import dataclass
-from typing import List
+from typing import List, Optional
 from word_to_number.extractor import NumberExtractor
 from telegram import Voice
 from voicekit.library_voicekit import stt_wav_to_string, tts_string_to_wav
@@ -12,7 +12,7 @@ from voicekit.library_voicekit import stt_wav_to_string, tts_string_to_wav
 class AnswerOption:
     number: int
     text: str
-    is_correct: bool
+    is_correct: Optional[bool] = None
 
 
 @dataclass
@@ -33,7 +33,7 @@ class CaseAction:
 class Case:
     body: str
     outcomes: List[CaseAction]
-    choices: List[str]
+    choices: List[AnswerOption]
 
 
 class TempFiles:
@@ -86,19 +86,17 @@ def send_text_as_voice(text, update, context):
 
 def is_correct(user_answer_string, answer_options_list, no_answer_options=False):
     extractor = NumberExtractor()
-    user_answer_string = extractor.replace_groups(user_answer_string)
+    user_answer_string = extractor.replace_groups(user_answer_string).lower()
     if no_answer_options and not len(answer_options_list) == 1:
         raise ValueError("There's actuatlly answer options")
     number_answer = None
     text_answer = None
-    print(user_answer_string)
     for option in answer_options_list:
-        option.text, option.number = option.text.lower(), str(option.number).lower()
-        number_answer = option if (option.number in user_answer_string or user_answer_string in option.number) \
+        option.text, option.number = option.text.lower(), str(option.number)
+        number_answer = option if not no_answer_options and (option.number in user_answer_string or user_answer_string in option.number) \
             else number_answer
         text_answer = option if (option.text in user_answer_string or user_answer_string in option.text)\
             else text_answer
-    print(number_answer, text_answer)
 
     user_answer = number_answer if number_answer else text_answer
     if not user_answer:
@@ -107,18 +105,23 @@ def is_correct(user_answer_string, answer_options_list, no_answer_options=False)
     result = user_answer.is_correct
     return result
 
+
 def get_answered_option(user_answer_string, answer_options_list):
     extractor = NumberExtractor()
-    user_answer_string = extractor.replace_groups(user_answer_string)
+    user_answer_string = extractor.replace_groups(user_answer_string).lower()
     number_answer = None
     text_answer = None
     for option in answer_options_list:
-        option.text, option.number = option.text.lower(), option.number.lower()
+        option.text, option.number = option.text.lower(), str(option.number)
         number_answer = option if option.number in user_answer_string else number_answer
         text_answer = option if option.text in user_answer_string else text_answer
 
     user_answer = number_answer if number_answer else text_answer
     return user_answer
+
+
+def has_more_questions(update, context):
+    return True
 
 # Test
 # options = [AnswerOption("1", "пиздато", False), AnswerOption("2", "хуёво", False), AnswerOption("3", "полный пиздец 1488", True)]

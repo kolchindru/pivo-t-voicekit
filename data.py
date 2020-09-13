@@ -19,9 +19,9 @@ multiple_choice_questions = [
     utils.Question(
         body="Спустя сколько лет после своего основания крупнейшая сеть кофеен Старбакс Кофе открыла первое кафе вне США?",
         answers=[utils.AnswerOption(number=1, text="25 лет", is_correct=True),
-                 utils.AnswerOption(number=1, text="50 лет", is_correct=False),
-                 utils.AnswerOption(number=1, text="6 лет", is_correct=False),
-                 utils.AnswerOption(number=1, text="17 лет", is_correct=False)],
+                 utils.AnswerOption(number=2, text="50 лет", is_correct=False),
+                 utils.AnswerOption(number=3, text="6 лет", is_correct=False),
+                 utils.AnswerOption(number=4, text="17 лет", is_correct=False)],
         right_text="Да, в 1996 открылась первая кофейня в Токио!",
         wrong_text="Нет! Компанию основали в 1971 году и только после убыточных 80-ых ей удалось открыть первую кофейню в Токио в 1996 году."
     ),
@@ -30,24 +30,18 @@ multiple_choice_questions = [
 cases = [
     utils.Case(
         body="Правильно! Инвесторы заинтересовались твоей компанией, увидев, как ты разбираешься в области. Теперь ты можешь прокачать свою компанию:"
-             "Инвесторы предлагают тебе:"
-             "а. 10 000 000 рублей за долю 10% в твоей компании."
-             "б. 5 000 000 рублей за долю 5% в твоей компании."
-             "Что ты выберешь?",
+             "\nИнвесторы предлагают тебе:",
         outcomes=[utils.CaseAction(is_up=True, amount=10000000),
                   utils.CaseAction(is_up=True, amount=5000000)],
-        choices=["а. 10 000 000 рублей за долю 10% в твоей компании.",
-                 "б. 5 000 000 рублей за долю 5% в твоей компании."]
+        choices=[utils.AnswerOption(number=1, text="10 000 000 рублей за долю 10% в твоей компании"),
+                 utils.AnswerOption(number=2, text="5 000 000 рублей за долю 5% в твоей компании."),]
     ),
     utils.Case(
         body="Правильно! Инвесторы заинтересовались твоей компанией, увидев, как ты разбираешься в области. Теперь ты можешь прокачать свою компанию:"
-             "Инвесторы предлагают тебе:"
-             "а. 10 000 000 рублей за долю 10% в твоей компании."
-             "б. 5 000 000 рублей за долю 5% в твоей компании."
-             "Что ты выберешь?",
+             "\nИнвесторы предлагают тебе:",
         outcomes=[utils.CaseAction(is_up=True, amount=10000000),
                   utils.CaseAction(is_up=True, amount=5000000)],
-        choices=["а. 10 000 000 рублей за долю 10% в твоей компании.",
-                 "б. 5 000 000 рублей за долю 5% в твоей компании."]
+        choices=[utils.AnswerOption(number=1, text="10 000 000 рублей за долю 10% в твоей компании"),
+                 utils.AnswerOption(number=2, text="5 000 000 рублей за долю 5% в твоей компании."), ]
     ),
 ]
