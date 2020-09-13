@@ -7,6 +7,8 @@ from word_to_number.extractor import NumberExtractor
 from telegram import Voice
 from voicekit.library_voicekit import stt_wav_to_string, tts_string_to_wav
 
+SEND_VOICE = True
+
 
 @dataclass
 class AnswerOption:
@@ -89,6 +91,14 @@ def send_text_as_voice(text, update, context):
 
         with open(tmp_ogg, "rb") as voice_file:
             context.bot.send_voice(chat_id=update.effective_chat.id, voice=voice_file)
+
+
+def send_message(text, update, context):
+    if SEND_VOICE:
+        send_text_as_voice(text, update, context)
+    else:
+        context.bot.send_message(chat_id=update.effective_chat.id, text=text)
+
 
 def is_correct(user_answer_string, answer_options_list, no_answer_options=False):
     extractor = NumberExtractor()

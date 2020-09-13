@@ -8,6 +8,8 @@ import states
 import texts
 import data
 
+from utils import send_message
+
 BOT_TOKEN = os.environ["BOT_API_KEY"]
 
 persistence = PicklePersistence(filename='persistence.pickle')
@@ -24,8 +26,7 @@ def start_callback(update, context):
     answers_text = "\n".join(f"{letter}. {answer}" for letter, answer in
                              zip(handlers.question.answer_numbers, [a.text for a in data.companies.choices]))
     text = f"{body_text}\n\n{answers_text}\n\nТы всегда можешь начать всё сначала, отправив команду /reset"
-    context.bot.send_message(chat_id=update.message.chat_id,
-                             text=text)
+    send_message(text, update, context)
     return states.ONBOARDING_CHOOSE_DOMAIN_STATE
 
 

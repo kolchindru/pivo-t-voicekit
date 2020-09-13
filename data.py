@@ -9,9 +9,9 @@ free_answer_questions = [
     ),
     utils.Question(
         body="Какая международная сеть кофеен приобрела успех на российском рынке лишь со второй попытки? Первый раз эта сеть открылась в 1996 году и проработала всего три года, а затем снова открылась уже 2010?",
-        answers=[utils.AnswerOption(number=1, text="Dunkin Donuts", is_correct=True)],
+        answers=[utils.AnswerOption(number=1, text="Данкин Донатс", is_correct=True)],
         right_text="В точку!",
-        wrong_text="Не-а! Это Dunkin Donuts."
+        wrong_text="Не-а! Это Данкин Донатс."
     ),
 ]
 

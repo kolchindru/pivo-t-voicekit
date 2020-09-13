@@ -7,20 +7,25 @@ from telegram.ext import MessageHandler, CommandHandler, Filters
 import texts
 import utils
 
+from utils import send_message
+
 
 def choose_company_action_callback(update, context):
     case = context.user_data["current_case"]
     answer_num = int(utils.get_answered_option(utils.message_to_text(update, context), case.choices).number) - 1
     context.user_data["company_price"] = context.user_data.get("company_price", 0) + case.outcomes[answer_num].amount
-    context.bot.send_message(chat_id=update.message.chat_id,
-                             text=texts.common.RESPONSE_TO_DECISION.format(
-                                 name=context.user_data["company_name"],
-                                 number=case.outcomes[answer_num].amount,
-                                 price=context.user_data["company_price"],
-                             ))
+
+    send_message(
+        texts.common.RESPONSE_TO_DECISION.format(
+             name=context.user_data["company_name"],
+             number=case.outcomes[answer_num].amount,
+             price=context.user_data["company_price"],
+         ),
+        update,
+        context
+    )
     if utils.has_more_questions(update, context):
-        context.bot.send_message(chat_id=update.message.chat_id,
-                                 text=texts.question.HAS_MORE_QUESTIONS)
+        send_message(texts.question.HAS_MORE_QUESTIONS, update, context)
         state = handlers.question.send_question(update, context)
         return state
     else:
