@@ -9,9 +9,9 @@ import handlers
 from utils import send_message
 
 domain_to_name = {
-    "coffee": "эко-френдли кофейня",
-    "nails": "маникюрный салон",
-    "scooter": "сервис по аренде самокатов",
+    "coffee": "эко-френдли кофейня.",
+    "nails": "маникюрный салон.",
+    "scooter": "сервис по аренде самокатов.",
 }
 
 

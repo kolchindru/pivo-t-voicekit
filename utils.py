@@ -108,7 +108,7 @@ def is_correct(user_answer_string, answer_options_list, no_answer_options=False)
     number_answer = None
     text_answer = None
     for option in answer_options_list:
-        option.text, option.number = option.text.lower(), str(option.number).lower()
+        option.text, option.number = option.text.lower().replace(".", ""), str(option.number).lower()
         number_answer = option if not no_answer_options and (option.number in user_answer_string.split(" ")) else number_answer
         if (option.text in user_answer_string) or (user_answer_string.isnumeric() and user_answer_string in option.text):
             text_answer = option
@@ -127,7 +127,7 @@ def get_answered_option(user_answer_string, answer_options_list):
     number_answer = None
     text_answer = None
     for option in answer_options_list:
-        option.text, option.number = option.text.lower(), str(option.number).lower()
+        option.text, option.number = option.text.lower().replace(".", ""), str(option.number).lower()
         number_answer = option if option.number in user_answer_string.split(" ") else number_answer
         if (option.text in user_answer_string) or (user_answer_string.isnumeric() and user_answer_string in option.text):
             text_answer = option
