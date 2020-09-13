@@ -68,6 +68,15 @@ def _convert_audio(file_input, file_output, slow=0.85):
     print(time() - start)
 
 
+# def wrapper(func):
+#     def wraps(*args, **kwargs):
+#         res = func(*args, **kwargs)
+#         print(res, type(res))
+#         return res
+#     return wraps
+#
+#
+# @wrapper
 def message_to_text(update, context, send_back_voice=True):
     if update.message.voice:
         with TempFiles(".ogg", ".wav") as (tmp_ogg, tmp_wav):
@@ -87,13 +96,15 @@ def message_to_text(update, context, send_back_voice=True):
     return update.message.text
 
 
-def send_text_as_voice(text, update, context):
+def send_text_as_voice(text, update, context, also_text=True):
     with TempFiles(".ogg", ".wav") as (tmp_ogg, tmp_wav):
         tts_string_to_wav(text, tmp_wav)
         _convert_audio(tmp_wav, tmp_ogg)
 
         with open(tmp_ogg, "rb") as voice_file:
             context.bot.send_voice(chat_id=update.effective_chat.id, voice=voice_file)
+        if also_text:
+            context.bot.send_message(chat_id=update.effective_chat.id, text=text)
 
 
 def send_message(text, update, context):

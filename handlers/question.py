@@ -33,13 +33,13 @@ def send_question(update, context):
 
 def handle_question_answer(update, context, is_free_choice):
     current_question = context.user_data["current_question"]
-    is_correct = utils.is_correct(update.message.text, current_question.answers,
+    is_correct = utils.is_correct(utils.message_to_text(update, context), current_question.answers,
                                   no_answer_options=is_free_choice)
     if is_correct is None:
         send_message(texts.common.FAILED_TO_PARSE, update, context)
         return
     if is_correct:
-        context.bot.send_message(current_question.right_text, update, context)
+        send_message(current_question.right_text, update, context)
         case = random.choice(data.cases)
         context.user_data["current_case"] = case
 

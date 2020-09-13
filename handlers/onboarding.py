@@ -29,7 +29,7 @@ def choose_domain_state_callback(update, context):
 
 
 def choose_name_state_callback(update, context):
-    company_name = update.message.text
+    company_name = utils.message_to_text(update, context)
     context.user_data["company_name"] = company_name
     send_message(texts.onboarding.CHOSE_NAME.format(name=company_name), update, context)
     state = handlers.question.send_question(update, context)

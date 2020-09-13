@@ -12,7 +12,11 @@ from utils import send_message
 
 def choose_company_action_callback(update, context):
     case = context.user_data["current_case"]
-    answer_num = int(utils.get_answered_option(utils.message_to_text(update, context), case.choices).number) - 1
+    answered_option = utils.get_answered_option(utils.message_to_text(update, context), case.choices)
+    if answered_option is None:
+        send_message(texts.common.FAILED_TO_PARSE, update, context)
+        return
+    answer_num = int(answered_option.number) - 1
     context.user_data["company_price"] = context.user_data.get("company_price", 0) + case.outcomes[answer_num].amount
 
     send_message(

@@ -35,7 +35,7 @@ def reset_callback(update, context):
 
 
 def unknown_callback(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id, text=texts.common.FAILED_TO_PARSE)
+    send_message(texts.common.FAILED_TO_PARSE, update, context)
     return
 
 
