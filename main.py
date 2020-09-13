@@ -47,7 +47,7 @@ states_to_handlers = {
 start_handler = CommandHandler("start", start_callback)
 reset_handler = CommandHandler("reset", reset_callback)
 unknown_handler = MessageHandler(Filters.all, unknown_callback)
-conversation_handler = ConversationHandler([start_handler], states_to_handlers, [reset_handler, unknown_handler])
+conversation_handler = ConversationHandler([start_handler, reset_handler], states_to_handlers, [reset_handler, unknown_handler])
 
 dispatcher.add_handler(conversation_handler)
 
