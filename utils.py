@@ -83,7 +83,6 @@ def send_text_as_voice(text, update, context):
         with open(tmp_ogg, "rb") as voice_file:
             context.bot.send_voice(chat_id=update.effective_chat.id, voice=voice_file)
 
-
 def is_correct(user_answer_string, answer_options_list, no_answer_options=False):
     extractor = NumberExtractor()
     user_answer_string = extractor.replace_groups(user_answer_string).lower()
@@ -92,11 +91,10 @@ def is_correct(user_answer_string, answer_options_list, no_answer_options=False)
     number_answer = None
     text_answer = None
     for option in answer_options_list:
-        option.text, option.number = option.text.lower(), str(option.number)
-        number_answer = option if not no_answer_options and (option.number in user_answer_string or user_answer_string in option.number) \
-            else number_answer
-        text_answer = option if (option.text in user_answer_string or user_answer_string in option.text)\
-            else text_answer
+        option.text, option.number = option.text.lower(), str(option.number).lower()
+        number_answer = option if not no_answer_options and (option.number in user_answer_string.split(" ")) else number_answer
+        if (option.text in user_answer_string) or (user_answer_string.isnumeric() and user_answer_string in option.text):
+            text_answer = option
 
     user_answer = number_answer if number_answer else text_answer
     if not user_answer:
@@ -112,9 +110,10 @@ def get_answered_option(user_answer_string, answer_options_list):
     number_answer = None
     text_answer = None
     for option in answer_options_list:
-        option.text, option.number = option.text.lower(), str(option.number)
-        number_answer = option if option.number in user_answer_string else number_answer
-        text_answer = option if option.text in user_answer_string else text_answer
+        option.text, option.number = option.text.lower(), str(option.number).lower()
+        number_answer = option if option.number in user_answer_string.split(" ") else number_answer
+        if (option.text in user_answer_string) or (user_answer_string.isnumeric() and user_answer_string in option.text):
+            text_answer = option
 
     user_answer = number_answer if number_answer else text_answer
     return user_answer
@@ -124,5 +123,6 @@ def has_more_questions(update, context):
     return True
 
 # Test
-# options = [AnswerOption("1", "пиздато", False), AnswerOption("2", "хуёво", False), AnswerOption("3", "полный пиздец 1488", True)]
-# print(is_correct("вариант третий хуёво", options))
+if __name__ == "__main__":
+    options = [AnswerOption("1", "25 лет", True), AnswerOption("2", "50 лет", False), AnswerOption("3", "6 лет", False), AnswerOption("4", "17 лет", False)]
+    print(is_correct("семнадцать", options))
